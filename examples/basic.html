@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="../js/AjaxUploader.js"></script>
+  <script type="text/javascript">
+
+    jQuery(function($){
+
+      var uploader = new $.AjaxUploader('#target',{
+        success: function(json){
+          alert('Upload completed, server returned '+json.test);
+        },
+        error: function(data,status,e){
+          alert('Upload error '+e);
+        }
+      });
+
+      $('#go').click(function(e){
+        uploader.init('example_files/debug_upload.php',null,'json');
+        e.preventDefault();
+      });
+      
+    });
+
+</script>
+</head>
+<body>
+<form>
+  <input type="file" id="target" name="target" />
+</form>
+<button id="go">Go!</button>
+</body>
+</html>
