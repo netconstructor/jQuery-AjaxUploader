@@ -1,9 +1,9 @@
 /**
  * AjaxUploader.js v0.5.0 {{{
  *
- * jQuery Ajax Uploader - released under MIT License 
+ * jQuery-AjaxUploader - released under MIT License
  * Author: Kelly Hallman <khallman@gmail.com>
- * http://github.com/tapmodo/jquery-ajaxUpload
+ * http://github.com/tapmodo/jquery-ajaxUploader
  *
  * }}}
  */
@@ -24,7 +24,7 @@ $.AjaxUploader = function(obj,options){
 }
 
 $.extend($.AjaxUploader.prototype,{
-  init: function(url,data,dataType) {
+  init: function(url,data,dataType){
     if (url) this.setUrl(url);
     if ($.isPlainObject(data)) this.setData(data);
     if (dataType) this.setDataType(dataType);
@@ -34,27 +34,27 @@ $.extend($.AjaxUploader.prototype,{
 
     var requestDone = false,
       that = this;
-    
+
     $(document.body).append(this.$io, this.$form);
 
     // Watch for a new set of requests
-    if (this.options.global && ! $.active++) {
+    if (this.options.global && ! $.active++){
       $.event.trigger('ajaxStart');
     }
-    
+
     // Create the request object
     if (this.options.global)
       $.event.trigger('ajaxSend', [this.xml, this.options]);
-     
+
     // Timeout checker
-    if (this.options.timeout > 0) {
+    if (this.options.timeout > 0){
       window.setTimeout(function(){
         // Check to see if the request is still happening
         if(!requestDone && that.uploadCallback) that.uploadCallback.call(that,'timeout');
       }, this.options.timeout);
     }
-    
-    try {
+
+    try{
 
       this.$form.attr({
         action: this.options.url,
@@ -64,8 +64,8 @@ $.extend($.AjaxUploader.prototype,{
         .attr(this.$form.encoding?'encoding':'enctype','multipart/form-data')
         .submit();
 
-    } 
-    catch(e) {			
+    }
+    catch(e){
       this.handleError(this.options, this.xml, null, e);
     }
 
@@ -79,22 +79,22 @@ $.extend($.AjaxUploader.prototype,{
     this.data = data;
     return this;
   },
-  setUrl: function(url) {
-  	this.options.url = url;
-  	return this;
+  setUrl: function(url){
+    this.options.url = url;
+    return this;
   },
-  setDataType: function(dataType) {
-  	this.options.dataType = dataType;
-  	return this;
+  setDataType: function(dataType){
+    this.options.dataType = dataType;
+    return this;
   },
-  
+
   /**
    * Create and return jQuery form
    */
-  createForm: function() {
+  createForm: function(){
 
     // Create jQuery form element
-	  var $form = $('<form />').attr({
+    var $form = $('<form />').attr({
       method:   'POST',
       name:     this.formId,
       enctype:  'multipart/form-data'
@@ -129,26 +129,26 @@ $.extend($.AjaxUploader.prototype,{
   createIframe: function(uri){
 
     // Create jQuery iframe element
-  	var $iframe = $('<iframe />').attr({
+    var $iframe = $('<iframe />').attr({
       name: this.frameId,
       id: this.frameId
-  	}).css({
-  	  position: 'absolute',
-  	  top: '-9999px',
-  	  left: '-9999px'
-  	});
-  	
-  	if (window.ActiveXObject) {
-    	switch(typeof(uri)) {
-    	  case 'boolean':
-    	    $iframe.attr('src','javascript:false');
-    	    break;
-    	  case 'string':
-    	    $iframe.attr('src',uri);
-    	    break;
-    	}
-    }
+    }).css({
+      position: 'absolute',
+      top: '-9999px',
+      left: '-9999px'
+    });
     
+    if (window.ActiveXObject) {
+      switch(typeof(uri)) {
+        case 'boolean':
+          $iframe.attr('src','javascript:false');
+          break;
+        case 'string':
+          $iframe.attr('src',uri);
+          break;
+      }
+    }
+
     return $iframe;
   },
   /**
@@ -168,27 +168,27 @@ $.extend($.AjaxUploader.prototype,{
           xml.responseText = cw.document.body? cw.document.body.innerText: null;
         else xml.responseText = cw.document.body? cw.document.body.innerHTML: null;
 
-  	    xml.responseXML  = cw.document.XMLDocument? cw.document.XMLDocument: cw.document;
+        xml.responseXML  = cw.document.XMLDocument? cw.document.XMLDocument: cw.document;
       }
       else if(cd) {
-	      xml.responseText = cd.document.body? cd.document.body.innerHTML: null;
-      	xml.responseXML  = cd.document.XMLDocument? cd.document.XMLDocument: cd.document;
+        xml.responseText = cd.document.body? cd.document.body.innerHTML: null;
+        xml.responseXML  = cd.document.XMLDocument? cd.document.XMLDocument: cd.document;
       }
     } catch(e) {
       this.handleError(this.options, xml, null, e);
     }
 
-    if (xml || isTimeout == 'timeout') 
-		{				
+    if (xml || isTimeout == 'timeout')
+    {       
       requestDone = true;
       var status;
       try {
         status = isTimeout != 'timeout' ? 'success' : 'error';
         // Make sure that the request was successful or notmodified
         if (status != 'error')
-      	{
+        {
           // process the data (runs the xml through httpData regardless of callback)
-          var data = this.uploadHttpData.call(this, xml, this.options.dataType);    
+          var data = this.uploadHttpData.call(this, xml, this.options.dataType);
 
           // If a local callback was specified, fire it and pass it the data
           if (this.options.success)
@@ -220,7 +220,7 @@ $.extend($.AjaxUploader.prototype,{
 
       this.$io.unbind();
 
-    	window.setTimeout($.proxy(this.remove,this),100);
+      window.setTimeout($.proxy(this.remove,this),100);
       this.xml = null;
     }
   },
@@ -231,10 +231,10 @@ $.extend($.AjaxUploader.prototype,{
     try{
       this.$io.remove();
       this.$form.remove();
-    } 
+    }
     catch(e){
       this.handleError(this.options, this.xml, null, e);
-    }									
+    }                 
   },
   /**
    * Convert data from request object
@@ -242,14 +242,14 @@ $.extend($.AjaxUploader.prototype,{
   uploadHttpData: function(r, type){
     var data = !type;
     data = type == 'xml' || data ? r.responseXML : r.responseText;
-    
+
     // If the type is "script", eval it in global context
     if (type == 'script') $.globalEval(data);
-      
+
     // Get the JavaScript object, if JSON is used.
     if (type == 'json') data = $.parseJSON(data);
       //safer than: eval("data = " + data);
-      
+
     // evaluate scripts within html
     // TODO: doesn't evalScripts require another plugin??
     if (type == 'html')
