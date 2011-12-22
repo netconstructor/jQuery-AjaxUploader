@@ -105,7 +105,7 @@ $.extend($.AjaxUploader.prototype,{
     });
 
     // Clone the element
-    var newElement = this.$input.clone();
+    var newElement = this.$input.clone(true);
 
     this.$input.attr('id','jUploadFile'+this.uniqid)
 
